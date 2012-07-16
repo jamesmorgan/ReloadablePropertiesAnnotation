@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<import resource="classpath:/spring/spring-defaultConfiguration.xml" />
+
+	<bean class="com.morgan.design.properties.testBeans.MissingProperty" />
+
+	<bean
+		class="com.morgan.design.properties.internal.ReadablePropertySourcesPlaceholderConfigurer"
+		autowire="constructor" id="propertyConfigurator">
+		<constructor-arg ref="eventNotifier" />
+		<constructor-arg ref="propertyResolver" />
+		<property name="ignoreUnresolvablePlaceholders" value="false" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath*:test-files/example.properties
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean
+		class="com.morgan.design.properties.internal.ReloadablePropertyPostProcessor">
+		<constructor-arg ref="propertyConfigurator" />
+		<constructor-arg ref="eventNotifier" />
+		<constructor-arg ref="conversionService" />
+	</bean>
+</beans>

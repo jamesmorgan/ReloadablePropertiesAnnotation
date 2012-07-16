@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- Define event bus for use with GuavaPropertyChangedEventNotifier -->
+	<bean class="com.google.common.eventbus.EventBus" id="propertiesEventBus" />
+
+	<bean
+		class="com.morgan.design.properties.conversion.DefaultPropertyConversionService"
+		id="conversionService" />
+
+	<bean
+		class="com.morgan.design.properties.internal.GuavaPropertyChangedEventNotifier"
+		autowire="constructor" id="eventNotifier">
+		<constructor-arg ref="propertiesEventBus" />
+	</bean>
+
+	<bean
+		class="com.morgan.design.properties.internal.SubstitutingPropertyResolver"
+		id="propertyResolver" />
+
+</beans>
