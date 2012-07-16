@@ -6,16 +6,22 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 ">
 
-	<context:component-scan base-package="com.leadx.lib.spring"
-		use-default-filters="false">
-		<context:include-filter type="regex"
-			expression="com\.leadx\.lib\.spring\.AutowirePropertyPostProcessor" />
-	</context:component-scan>
-
 	<!-- Define event bus for use with GuavaPropertyChangedEventNotifier -->
 	<bean class="com.google.common.eventbus.EventBus" id="propertiesEventBus" />
 
-	<context:component-scan base-package="com.morgan.design.properties.conversion" />
+	<bean class="com.morgan.design.properties.conversion.DefaultPropertyConversionService" id="conversionService" />
+
+	<bean class="com.morgan.design.properties.internal.GuavaPropertyChangedEventNotifier" autowire="constructor" id="eventNotifier">
+		<constructor-arg ref="propertiesEventBus" />
+	</bean>
+
+	<bean class="com.morgan.design.properties.internal.SubstitutingPropertyResolver" id="propertyResolver" />
+
+	<bean class="com.morgan.design.properties.internal.ReloadablePropertyPostProcessor">
+		<constructor-arg ref="propertyConfigurator" />
+		<constructor-arg ref="eventNotifier" />
+		<constructor-arg ref="conversionService" />
+	</bean>
 
 	<bean id="readablePlaceholder" class="com.morgan.design.properties.internal.ReadablePropertySourcesPlaceholderConfigurer">
 		<property name="ignoreUnresolvablePlaceholders" value="false" />
@@ -24,7 +30,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 			<list>
 				<value>classpath*:META-INF/*.properties</value>
 				<value>classpath:test.properties</value>
-				<value>file:${CONFIG_DIR}/leadx.properties</value>
+				<value>file:${CONFIG_DIR}/global.properties</value>
 			</list>
 		</property>
 	</bean>

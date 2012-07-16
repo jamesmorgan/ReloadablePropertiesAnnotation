@@ -5,7 +5,6 @@
 			</pattern>
 		</encoder>
 	</appender>
-
 	<root level="DEBUG">
 		<appender-ref ref="stdout" />
 	</root>
