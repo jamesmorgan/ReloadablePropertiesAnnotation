@@ -1,6 +1,7 @@
-package com.morgan.design.properties.internal;
+package com.morgan.design.properties.event;
 
 import com.morgan.design.properties.bean.PropertyModifiedEvent;
+import com.morgan.design.properties.internal.ReloadablePropertyPostProcessor;
 
 public interface PropertyChangedEventNotifier {
 

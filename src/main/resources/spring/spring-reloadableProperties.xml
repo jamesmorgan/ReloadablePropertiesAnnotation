@@ -6,26 +6,21 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 ">
 
-	<!-- Define event bus for use with GuavaPropertyChangedEventNotifier -->
-	<bean class="com.google.common.eventbus.EventBus" id="propertiesEventBus" />
+	<import resource="classpath:/spring/spring-defaultConfiguration.xml" />
 
-	<bean class="com.morgan.design.properties.conversion.DefaultPropertyConversionService" id="conversionService" />
-
-	<bean class="com.morgan.design.properties.internal.GuavaPropertyChangedEventNotifier" autowire="constructor" id="eventNotifier">
-		<constructor-arg ref="propertiesEventBus" />
-	</bean>
-
-	<bean class="com.morgan.design.properties.internal.SubstitutingPropertyResolver" id="propertyResolver" />
-
-	<bean class="com.morgan.design.properties.internal.ReloadablePropertyPostProcessor">
+	<bean
+		class="com.morgan.design.properties.internal.ReloadablePropertyPostProcessor">
 		<constructor-arg ref="propertyConfigurator" />
 		<constructor-arg ref="eventNotifier" />
 		<constructor-arg ref="conversionService" />
 	</bean>
 
-	<bean id="readablePlaceholder" class="com.morgan.design.properties.internal.ReadablePropertySourcesPlaceholderConfigurer">
+	<bean  id="propertyConfigurator"
+		class="com.morgan.design.properties.internal.ReadablePropertySourcesPlaceholderConfigurer">
 		<property name="ignoreUnresolvablePlaceholders" value="false" />
 		<property name="ignoreResourceNotFound" value="true" />
+		<constructor-arg ref="eventNotifier" />
+		<constructor-arg ref="propertyResolver" />
 		<property name="locations">
 			<list>
 				<value>classpath*:META-INF/*.properties</value>

@@ -34,6 +34,7 @@ public class UpdatingReloadablePropertyPostProcessorIntTest extends AbstractJUni
 	@Before
 	public void setUp() throws IOException {
 		this.loadedProperties = PropertiesLoaderUtils.loadAllProperties(PROPERTIES);
+		assertThat(this.bean.getStringProperty(), is("Injected String Value"));
 	}
 
 	@After
@@ -44,6 +45,7 @@ public class UpdatingReloadablePropertyPostProcessorIntTest extends AbstractJUni
 		this.loadedProperties.store(newOutputStream, null);
 
 		Thread.sleep(500); // this is a hack -> I need to find an alternative
+
 		assertThat(this.bean.getStringProperty(), is("Injected String Value"));
 	}
 

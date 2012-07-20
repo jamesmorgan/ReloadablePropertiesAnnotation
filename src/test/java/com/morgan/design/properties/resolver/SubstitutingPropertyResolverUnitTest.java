@@ -1,4 +1,4 @@
-package com.morgan.design.properties.internal;
+package com.morgan.design.properties.resolver;
 
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
@@ -6,6 +6,8 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.morgan.design.properties.resolver.SubstitutingPropertyResolver;
 
 public class SubstitutingPropertyResolverUnitTest {
 

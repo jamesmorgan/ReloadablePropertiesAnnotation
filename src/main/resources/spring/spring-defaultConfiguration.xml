@@ -12,13 +12,13 @@
 		id="conversionService" />
 
 	<bean
-		class="com.morgan.design.properties.internal.GuavaPropertyChangedEventNotifier"
+		class="com.morgan.design.properties.event.GuavaPropertyChangedEventNotifier"
 		autowire="constructor" id="eventNotifier">
 		<constructor-arg ref="propertiesEventBus" />
 	</bean>
 
 	<bean
-		class="com.morgan.design.properties.internal.SubstitutingPropertyResolver"
+		class="com.morgan.design.properties.resolver.SubstitutingPropertyResolver"
 		id="propertyResolver" />
 
 </beans>

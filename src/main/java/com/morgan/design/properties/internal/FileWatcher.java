@@ -2,6 +2,7 @@ package com.morgan.design.properties.internal;
 
 import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 
+import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,28 +26,32 @@ public class FileWatcher implements Runnable {
 	private final Resource[] locations;
 	private final EventPublisher eventPublisher;
 
-	public FileWatcher(final Resource[] locations, final EventPublisher eventPublisher) {
+	private boolean exit;
+	private WatchService watchService;
+
+	public FileWatcher(final Resource[] locations, final EventPublisher eventPublisher) throws IOException {
 		this.locations = locations;
 		this.eventPublisher = eventPublisher;
+		this.exit = false;
+		this.watchService = FileSystems.getDefault()
+			.newWatchService();
 	}
 
 	@Override
 	public void run() {
-		while (true) {
+		while (doNotExit()) {
 			for (final Resource resource : this.locations) {
 				try {
 					final Path path = Paths.get(resource.getFile()
 						.getParentFile()
 						.toURI());
-					final WatchService watchService = FileSystems.getDefault()
-						.newWatchService();
 
-					final WatchKey basePathWatchKey = path.register(watchService, ENTRY_MODIFY);
+					final WatchKey basePathWatchKey = path.register(this.watchService, ENTRY_MODIFY);
 
 					final String resourceName = resource.getFilename();
 
 					try {
-						final WatchKey watchKey = watchService.take(); // Await modification
+						final WatchKey watchKey = this.watchService.take(); // Await modification
 
 						for (final WatchEvent<?> event : basePathWatchKey.pollEvents()) {
 							final Path watchedPath = (Path) watchKey.watchable();
@@ -73,9 +78,29 @@ public class FileWatcher implements Runnable {
 				}
 				catch (final Exception e) {
 					log.error("Exception thrown when watching resources, fileName: " + resource.getFilename(), e);
+					stop();
 				}
 			}
 		}
+	}
+
+	public void stop() {
+		try {
+			log.debug("Stopping file watcher");
+			this.watchService.close();
+		}
+		catch (final IOException e) {
+			log.error("Unable to stop file watcher", e);
+		}
+		this.exit = true;
+	}
+
+	private boolean doNotExit() {
+		return !this.exit;
+	}
+
+	public boolean isRunning() {
+		return this.exit == false;
 	}
 
 	private boolean isSameTargetFile(final String resourceName, final Path target) {

@@ -1,4 +1,4 @@
-package com.morgan.design.properties.internal;
+package com.morgan.design.properties.resolver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

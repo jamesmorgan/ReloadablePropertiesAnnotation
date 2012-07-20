@@ -8,7 +8,7 @@ public class PropertyModifiedEvent {
 	private final Object oldValue;
 	private final Object newValue;
 
-	public PropertyModifiedEvent(String propertyName, Object oldValue, Object newValue) {
+	public PropertyModifiedEvent(final String propertyName, final Object oldValue, final Object newValue) {
 		this.propertyName = propertyName;
 		this.oldValue = oldValue;
 		this.newValue = newValue;
@@ -25,16 +25,15 @@ public class PropertyModifiedEvent {
 	public Object getNewValue() {
 		return this.newValue;
 	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(this.propertyName, this.oldValue, this.newValue);
 	}
 
 	@Override
-	public boolean equals(Object object) {
+	public boolean equals(final Object object) {
 		if (object instanceof PropertyModifiedEvent) {
-			PropertyModifiedEvent that = (PropertyModifiedEvent) object;
+			final PropertyModifiedEvent that = (PropertyModifiedEvent) object;
 			return Objects.equal(this.propertyName, that.propertyName) && Objects.equal(this.oldValue, that.oldValue)
 				&& Objects.equal(this.newValue, that.newValue);
 		}

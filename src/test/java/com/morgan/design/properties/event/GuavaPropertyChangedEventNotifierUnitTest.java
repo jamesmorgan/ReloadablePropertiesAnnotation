@@ -1,4 +1,4 @@
-package com.morgan.design.properties.internal;
+package com.morgan.design.properties.event;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 
 import com.google.common.eventbus.EventBus;
 import com.morgan.design.properties.bean.PropertyModifiedEvent;
+import com.morgan.design.properties.internal.ReloadablePropertyPostProcessor;
 
 @RunWith(JMock.class)
 @SuppressWarnings("unqualified-field-access")

@@ -1,4 +1,4 @@
-package com.morgan.design.properties.internal;
+package com.morgan.design.properties.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.eventbus.EventBus;
 import com.morgan.design.properties.bean.PropertyModifiedEvent;
+import com.morgan.design.properties.internal.ReloadablePropertyPostProcessor;
 
 @Component
 public class GuavaPropertyChangedEventNotifier implements PropertyChangedEventNotifier {

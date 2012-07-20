@@ -24,6 +24,7 @@ import com.morgan.design.properties.ReloadableProperty;
 import com.morgan.design.properties.bean.BeanPropertyHolder;
 import com.morgan.design.properties.bean.PropertyModifiedEvent;
 import com.morgan.design.properties.conversion.PropertyConversionService;
+import com.morgan.design.properties.event.PropertyChangedEventNotifier;
 
 /**
  * <p>
@@ -75,7 +76,7 @@ public class ReloadablePropertyPostProcessor extends InstantiationAwareBeanPostP
 	}
 
 	/**
-	 * Utility method to registers the class for receiving events about property files being changed, setting up bean re-injection once triggered.
+	 * Utility method to register the class for receiving events about property files being changed, setting up bean re-injection once triggered.
 	 */
 	public final void registerPropertyReloader() {
 		// Setup Guava event bus listener

@@ -13,7 +13,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.morgan.design.properties.bean.PropertyModifiedEvent;
+import com.morgan.design.properties.event.PropertyChangedEventNotifier;
 import com.morgan.design.properties.internal.FileWatcher.EventPublisher;
+import com.morgan.design.properties.resolver.PropertyResolver;
 
 /**
  * Specialisation of {@link PropertySourcesPlaceholderConfigurer} that can react to changes in the resources specified. The watching process does not start by
@@ -81,9 +83,14 @@ public class ReadablePropertySourcesPlaceholderConfigurer extends PropertySource
 		if (null == this.eventNotifier) {
 			throw new BeanInitializationException("Event bus not setup, you should not be calling this method...!");
 		}
-		// Here we actually create and set a FileWatcher to monitor the given locations
-		Executors.newSingleThreadExecutor()
-			.execute(new FileWatcher(this.locations, this));
+		try {
+			// Here we actually create and set a FileWatcher to monitor the given locations
+			Executors.newSingleThreadExecutor()
+				.execute(new FileWatcher(this.locations, this));
+		}
+		catch (final IOException e) {
+			log.error("Unable to start properties file watcher", e);
+		}
 	}
 
 	public Object resolveProperty(final Object property) {

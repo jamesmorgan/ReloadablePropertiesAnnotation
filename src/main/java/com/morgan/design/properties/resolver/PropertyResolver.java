@@ -1,4 +1,4 @@
-package com.morgan.design.properties.internal;
+package com.morgan.design.properties.resolver;
 
 /**
  * Interface to be apply any special property resolution techniques on the given object, see {@link SubstitutingPropertyResolver} for default implementation
