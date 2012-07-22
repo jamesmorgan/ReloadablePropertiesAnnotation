@@ -58,8 +58,9 @@ public class FileWatcher implements Runnable {
 							final Kind<?> eventKind = event.kind();// returns the event type
 							final Path target = (Path) event.context();// returns the context of the event
 
+							log.debug("File modification Event Trigered");
 							if (isSameTargetFile(resourceName, target)) {
-								log.debug("File modification heard");
+								log.debug("Resource Change is known properties file {}", resourceName);
 								log.debug("Target [{}]", target);
 								log.debug("Event Kind [{}]", eventKind);
 								log.debug("Watched Path [{}]", watchedPath);

@@ -35,12 +35,14 @@ When an ENTRY_MODIFY event is fired firstly the resource changed is checked for 
 A set of integration and unit tests can be found in _src/test/java_ (tests) & _src/test/resources_ (test resources)
 
 ### TODO (Unfinished) ###
+* Update test method names
+* Creation of any test utilities or helper classes
 * Assign a new thread to each resource directory specified (see: FileWatcherUnitTest.class for failing test @Ignore)
 
 ### Why? ###
 * Useful for web applications which often need configuration changes but you don't always want to restart the application before new properties are used.
 * Can be used to define several layers of properties which can aid in defining multiple application configurations e.g sandbox/development/testing/production.
-* A pet project of mine I have been intending to implement/test for a while
+* A pet project of mine I have been intending to implement for a while
 * A test of the new Java 7 WatchService API
 * Another dive in Spring & general investigation of Google Guava's EventBus, a class which I believe is the extremely useful and easy to use
 * The project is aimed to be open to modification if required
