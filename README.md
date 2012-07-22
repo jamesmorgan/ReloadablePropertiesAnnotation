@@ -27,9 +27,11 @@ During the time of ApplicationContext start also a new instance of Instantiation
 Google Guava is used to implement a simple Publish & Subscribe (Pub-Sub) Pattern so that beans can be updated once created, i.e. a bean can subscribe to events. (see: EventBus) 
 EventBus was chosen as it is a very easy and simplistic way to implement loosely couple object structure. (see: blog)
 
-When each properties file resource is loaded a FileWatch.class (see:FaileWatch.class) is started and attached to the given resource, reporting on any java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY events from the host operating system
+When each properties file resource is loaded a PropertiesWatcher.class (see:FaileWatch.class) is started and attached to the given resource set, reporting on any java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY events from the host operating system
 
 When an ENTRY_MODIFY event is fired firstly the resource changed is checked for property value changes then any bean subscribing to changes to the modified property has the specified field value updated with the new property
+
+Each resource specified starts a new thread per parent directory i.e. two properties files in the same directory requires only one ResourceWatcher thread, three properties files in three different directories will start three threads.
 
 ### Tests ###
 A set of integration and unit tests can be found in _src/test/java_ (tests) & _src/test/resources_ (test resources)
@@ -37,7 +39,8 @@ A set of integration and unit tests can be found in _src/test/java_ (tests) & _s
 ### TODO (Unfinished) ###
 * Update test method names
 * Creation of any test utilities or helper classes
-* Assign a new thread to each resource directory specified (see: FileWatcherUnitTest.class for failing test @Ignore)
+* Add test for modifying file in directory which is not a properties file
+* Replace callback EventHandler with Guava EventBus
 
 ### Why? ###
 * Useful for web applications which often need configuration changes but you don't always want to restart the application before new properties are used.
@@ -51,7 +54,8 @@ A set of integration and unit tests can be found in _src/test/java_ (tests) & _s
 ### Future Changes ###
 * Ability to use Spring Expression language to map properties files
 * Support for Java 7 Data and Time classes
-* Add properties source of Database not just properties files
+* Include the ability to define a database driven properties source not just properties files
+* If one resource thread dies at present all watching threads are killed, graceful handle a thread being killed.
 
 ### Supported Property Type Conversions Available ###
 * Joda Time Library (2.1) - [link](http://joda-time.sourceforge.net/)

@@ -14,7 +14,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.morgan.design.properties.bean.PropertyModifiedEvent;
 import com.morgan.design.properties.event.PropertyChangedEventNotifier;
-import com.morgan.design.properties.internal.FileWatcher.EventPublisher;
+import com.morgan.design.properties.internal.PropertiesWatcher.EventPublisher;
 import com.morgan.design.properties.resolver.PropertyResolver;
 
 /**
@@ -86,7 +86,7 @@ public class ReadablePropertySourcesPlaceholderConfigurer extends PropertySource
 		try {
 			// Here we actually create and set a FileWatcher to monitor the given locations
 			Executors.newSingleThreadExecutor()
-				.execute(new FileWatcher(this.locations, this));
+				.execute(new PropertiesWatcher(this.locations, this));
 		}
 		catch (final IOException e) {
 			log.error("Unable to start properties file watcher", e);
