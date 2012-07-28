@@ -21,17 +21,19 @@ import com.morgan.design.properties.internal.PropertiesWatcher.EventPublisher;
 
 public class PropertiesWatcherUnitTest {
 
-	private static final String PROPERTIES = "target/test-classes/test-files/fileWatcher.properties";
-	private static final String PROPERTIES2 = "target/test-classes/test-files2/fileWatcher2.properties";
+	private static final int _1_SEC = 1000;
+	private static final int _2_SEC = 2000;
 
 	private Resource actual;
 	private CountDownLatch lock = new CountDownLatch(0);
 
-	final File propertiesFile1 = new File(PROPERTIES);
-	final Resource[] singleResource = new Resource[] { new FileSystemResource(this.propertiesFile1) };
+	final File propertiesFile1 = new File("target/test-classes/test-files/fileWatcher.properties");
+	final File propertiesFile2 = new File("target/test-classes/test-files/different_fileWatcher.properties");
+	final File propertiesFile3 = new File("target/test-classes/test-files2/fileWatcher2.properties");
 
-	final File propertiesFile2 = new File(PROPERTIES2);
-	final Resource[] multipleResources = new Resource[] { new FileSystemResource(this.propertiesFile1), new FileSystemResource(this.propertiesFile2) };
+	final Resource[] singleResource = new Resource[] { new FileSystemResource(this.propertiesFile1) };
+	final Resource[] multiResourceSameDir = new Resource[] { new FileSystemResource(this.propertiesFile1), new FileSystemResource(this.propertiesFile2) };
+	final Resource[] multiResourceDifferentDir = new Resource[] { new FileSystemResource(this.propertiesFile1), new FileSystemResource(this.propertiesFile3) };
 
 	@Test
 	public final void testWatchingASingle() throws IOException, InterruptedException {
@@ -41,44 +43,64 @@ public class PropertiesWatcherUnitTest {
 		confirmTestDataNotSet();
 
 		startPropertiesWatcher(propertiesWatcher);
-		wait(1000);
+		wait(_1_SEC);
 
 		modifyPropertiesFile(this.propertiesFile1);
-		wait(2000);
+		wait(_2_SEC);
 		confirmPropertiesFileModified(this.propertiesFile1);
 
 		propertiesWatcher.stop();
-		wait(1000);
+		wait(_2_SEC);
 	}
 
 	@Test
 	public final void testWatchingMulitipleResourcesInDifferingDirectories() throws IOException, InterruptedException {
-		resetCountDownLatch(this.multipleResources.length);
+		resetCountDownLatch(this.multiResourceDifferentDir.length);
 
-		final PropertiesWatcher propertiesWatcher = createPropertiesWatcher(this.multipleResources);
+		final PropertiesWatcher propertiesWatcher = createPropertiesWatcher(this.multiResourceDifferentDir);
 		confirmTestDataNotSet();
 
 		startPropertiesWatcher(propertiesWatcher);
-		wait(1000);
+		wait(_1_SEC);
 
-		modifyPropertiesFile(this.propertiesFile2);
-		wait(2000);
-		confirmPropertiesFileModified(this.propertiesFile2);
+		modifyPropertiesFile(this.propertiesFile3);
+		wait(_2_SEC);
+		confirmPropertiesFileModified(this.propertiesFile3);
 
 		resetTestData();
 		confirmTestDataNotSet();
 
 		modifyPropertiesFile(this.propertiesFile1);
-		wait(2000);
+		wait(_2_SEC);
 		confirmPropertiesFileModified(this.propertiesFile1);
 
 		propertiesWatcher.stop();
-		wait(1000);
+		wait(_1_SEC);
 	}
 
 	@Test
 	public final void testModifyingADifferentResoruceInSameDirectory() throws IOException, InterruptedException {
+		resetCountDownLatch(this.multiResourceSameDir.length);
 
+		final PropertiesWatcher propertiesWatcher = createPropertiesWatcher(this.multiResourceSameDir);
+		confirmTestDataNotSet();
+
+		startPropertiesWatcher(propertiesWatcher);
+		wait(_1_SEC);
+
+		modifyPropertiesFile(this.propertiesFile1);
+		wait(_2_SEC);
+		confirmPropertiesFileModified(this.propertiesFile1);
+
+		resetTestData();
+		confirmTestDataNotSet();
+
+		modifyPropertiesFile(this.propertiesFile2);
+		wait(_2_SEC);
+		confirmPropertiesFileModified(this.propertiesFile2);
+
+		propertiesWatcher.stop();
+		wait(_1_SEC);
 	}
 
 	private void resetCountDownLatch(final int count) {
