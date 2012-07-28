@@ -1,4 +1,4 @@
-## Dynamic Property Loader ##
+## Reloadable Properties Annotation ##
 
 ### Example Annotation Usage ###
 <pre>
@@ -16,18 +16,18 @@
 </pre>
 
 ### Example Spring XML Configuration ###
-* See [spring-reloadableProperties.xml](https://github.com/jamesemorgan/DynamicPropertyLoader/blob/master/src/main/resources/spring/spring-reloadableProperties.xml) for example configuration
+* See [spring-reloadableProperties.xml](https://github.com/jamesemorgan/ReloadablePropertiesAnnotation/blob/master/src/main/resources/spring/spring-reloadableProperties.xml) for example configuration
 * All main components can be extended or replaced if required
 
 ### How it Works  ###
-When the spring Application Context is started an implementation of Springs [PropertySourcesPlaceholderConfigurer](http://static.springsource.org/spring/docs/3.1.x/javadoc-api/org/springframework/context/support/PropertySourcesPlaceholderConfigurer.html) is instantiated to perform additional logic when loading and setting values from a given set of properties files. (see: [ReadablePropertySourcesPlaceholderConfigurer](https://github.com/jamesemorgan/DynamicPropertyLoader/blob/master/src/main/java/com/morgan/design/properties/internal/ReadablePropertySourcesPlaceholderConfigurer.java))
+When the spring Application Context is started an implementation of Springs [PropertySourcesPlaceholderConfigurer](http://static.springsource.org/spring/docs/3.1.x/javadoc-api/org/springframework/context/support/PropertySourcesPlaceholderConfigurer.html) is instantiated to perform additional logic when loading and setting values from a given set of properties files. (see: [ReadablePropertySourcesPlaceholderConfigurer](https://github.com/jamesemorgan/ReloadablePropertiesAnnotation/blob/master/src/main/java/com/morgan/design/properties/internal/ReadablePropertySourcesPlaceholderConfigurer.java))
 
 During the time of ApplicationContext start also a new instance of [InstantiationAwareBeanPostProcessorAdapter](http://static.springsource.org/spring/docs/2.5.x/api/org/springframework/beans/factory/config/InstantiationAwareBeanPostProcessorAdapter.html) is created that allows post bean processing.
 
 Google Guava is used to implement a simple Publish & Subscribe (Pub-Sub) Pattern so that beans can be updated once created, i.e. a bean can subscribe to events. (see: [EventBus](http://code.google.com/p/guava-libraries/wiki/EventBusExplained)) 
 EventBus was chosen as it is a very easy and simplistic way to implement loosely couple object structure. (see: [blog](http://codingjunkie.net/guava-eventbus/))
 
-When each properties file resource is loaded a [PropertiesWatcher](https://github.com/jamesemorgan/DynamicPropertyLoader/blob/master/src/main/java/com/morgan/design/properties/internal/PropertiesWatcher.java) is started and attached to the given resource set, reporting on any [java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY](http://docs.oracle.com/javase/7/docs/api/java/nio/file/StandardWatchEventKinds.html#ENTRY_MODIFY) events from the host operating system
+When each properties file resource is loaded a [PropertiesWatcher](https://github.com/jamesemorgan/ReloadablePropertiesAnnotation/blob/master/src/main/java/com/morgan/design/properties/internal/PropertiesWatcher.java) is started and attached to the given resource set, reporting on any [java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY](http://docs.oracle.com/javase/7/docs/api/java/nio/file/StandardWatchEventKinds.html#ENTRY_MODIFY) events from the host operating system
 
 When an ENTRY_MODIFY event is fired firstly the resource changed is checked for property value changes then any bean subscribing to changes to the modified property has the specified field value updated with the new property
 
