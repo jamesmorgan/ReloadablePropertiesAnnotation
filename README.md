@@ -16,18 +16,18 @@
 </pre>
 
 ### Example Spring XML Configuration ###
-* See _src/main/resources/spring-reloadableProperties.xml_ for example configuration
+* See [spring-reloadableProperties.xml](https://github.com/jamesemorgan/DynamicPropertyLoader/blob/master/src/main/resources/spring/spring-reloadableProperties.xml) for example configuration
 * All main components can be extended or replaced if required
 
 ### How it Works  ###
-When the spring Application Context is started an implementation of Springs PropertySourcesPlaceholderConfigurer is instantiated to perform additional logic when loading and setting values from a given set of properties files. (see:ReadablePropertySourcesPlaceholderConfigurer.class)
+When the spring Application Context is started an implementation of Springs [PropertySourcesPlaceholderConfigurer](http://static.springsource.org/spring/docs/3.1.x/javadoc-api/org/springframework/context/support/PropertySourcesPlaceholderConfigurer.html) is instantiated to perform additional logic when loading and setting values from a given set of properties files. (see: [ReadablePropertySourcesPlaceholderConfigurer](https://github.com/jamesemorgan/DynamicPropertyLoader/blob/master/src/main/java/com/morgan/design/properties/internal/ReadablePropertySourcesPlaceholderConfigurer.java))
 
-During the time of ApplicationContext start also a new instance of InstantiationAwareBeanPostProcessorAdapter.class is created that allows post bean processing.
+During the time of ApplicationContext start also a new instance of [InstantiationAwareBeanPostProcessorAdapter](http://static.springsource.org/spring/docs/2.5.x/api/org/springframework/beans/factory/config/InstantiationAwareBeanPostProcessorAdapter.html) is created that allows post bean processing.
 
-Google Guava is used to implement a simple Publish & Subscribe (Pub-Sub) Pattern so that beans can be updated once created, i.e. a bean can subscribe to events. (see: EventBus) 
-EventBus was chosen as it is a very easy and simplistic way to implement loosely couple object structure. (see: blog)
+Google Guava is used to implement a simple Publish & Subscribe (Pub-Sub) Pattern so that beans can be updated once created, i.e. a bean can subscribe to events. (see: [EventBus](http://code.google.com/p/guava-libraries/wiki/EventBusExplained)) 
+EventBus was chosen as it is a very easy and simplistic way to implement loosely couple object structure. (see: [blog](http://codingjunkie.net/guava-eventbus/))
 
-When each properties file resource is loaded a PropertiesWatcher.class (see:FaileWatch.class) is started and attached to the given resource set, reporting on any java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY events from the host operating system
+When each properties file resource is loaded a [PropertiesWatcher](https://github.com/jamesemorgan/DynamicPropertyLoader/blob/master/src/main/java/com/morgan/design/properties/internal/PropertiesWatcher.java) is started and attached to the given resource set, reporting on any [java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY](http://docs.oracle.com/javase/7/docs/api/java/nio/file/StandardWatchEventKinds.html#ENTRY_MODIFY) events from the host operating system
 
 When an ENTRY_MODIFY event is fired firstly the resource changed is checked for property value changes then any bean subscribing to changes to the modified property has the specified field value updated with the new property
 
@@ -39,7 +39,6 @@ A set of integration and unit tests can be found in _src/test/java_ (tests) & _s
 ### TODO (Unfinished) ###
 * Update test method names
 * Creation of any test utilities or helper classes
-* Add test for modifying file in directory which is not a properties file
 * Replace callback EventHandler with Guava EventBus
 
 ### Why? ###
@@ -47,7 +46,7 @@ A set of integration and unit tests can be found in _src/test/java_ (tests) & _s
 * Can be used to define several layers of properties which can aid in defining multiple application configurations e.g sandbox/development/testing/production.
 * A pet project of mine I have been intending to implement for a while
 * A test of the new Java 7 WatchService API
-* Another dive in Spring & general investigation of Google Guava's EventBus, a class which I believe is the extremely useful and easy to use
+* Another dive in Spring & general investigation of Google Guava's EventBus
 * The project is aimed to be open to modification if required
 * Sample testing tools (CountDownLatch, Hamcrest-1.3, JMock-2.6.0-RC2)
 
@@ -55,7 +54,7 @@ A set of integration and unit tests can be found in _src/test/java_ (tests) & _s
 * Ability to use Spring Expression language to map properties files
 * Support for Java 7 Data and Time classes
 * Include the ability to define a database driven properties source not just properties files
-* If one resource thread dies at present all watching threads are killed, graceful handle a thread being killed.
+* Implement error recovery inside PropertiesWatcher.class, including better thread recovery
 
 ### Supported Property Type Conversions Available ###
 * Joda Time Library (2.1) - [link](http://joda-time.sourceforge.net/)
