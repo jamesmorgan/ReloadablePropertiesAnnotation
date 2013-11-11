@@ -94,9 +94,14 @@ public class ReadablePropertySourcesPlaceholderConfigurer extends PropertySource
 	}
 
 	public Object resolveProperty(final Object property) {
-		final Object resolvedPropertyValue = this.properties.get(this.propertyResolver.resolveProperty(property));
-		if (this.propertyResolver.requiresFurtherResoltuion(resolvedPropertyValue)) {
-			return resolveProperty(resolvedPropertyValue);
+		Object resolvedPropertyValue = this.properties.get(this.propertyResolver.resolveProperty(property));
+		while (this.propertyResolver.requiresFurtherResoltuion(resolvedPropertyValue)) {
+            String resolvedValueStr = resolvedPropertyValue.toString();
+            int startingIndex = resolvedValueStr.indexOf("${");
+            int endingIndex = resolvedValueStr.indexOf("}", startingIndex) + 1;
+            String toResolve = resolvedValueStr.substring(startingIndex, endingIndex);
+            String resolved = resolveProperty(toResolve).toString();
+            resolvedPropertyValue = resolvedValueStr.substring(0, startingIndex) + resolved + resolvedValueStr.substring(endingIndex);
 		}
 		return resolvedPropertyValue;
 	}
