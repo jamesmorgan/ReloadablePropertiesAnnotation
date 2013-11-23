@@ -91,15 +91,15 @@ A set of integration and unit tests can be found in _src/test/java_ (tests) & _s
 
 #### Core ####
 * Java 7 SDK
-* Spring (3.1.2-RELEASE)
-* Google Guava  (12.0)
+* Spring (3.2.5-RELEASE)
+* Google Guava  (14.0.1)
 
 #### Logging ####
-* logback (1.0.6)
-* slf4j (1.6.4)
+* logback (1.0.13)
+* slf4j (1.7.5)
 
 #### Testing ####
-* juint (4.10)
-* jmock (2.6.0-RC2)
+* juint (4.11)
+* jmock (2.6.0)
 * hamcrest-all (1.3)
-* spring-test (3.1.2-RELEASE)
+* spring-test (3.2.5-RELEASE)
