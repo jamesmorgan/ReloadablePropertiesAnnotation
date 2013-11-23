@@ -93,7 +93,10 @@ public class PropertiesWatcherUnitTest {
 		confirmPropertiesFileModified(this.propertiesFile1);
 
 		resetTestData();
+		wait(_1_SEC);
+
 		confirmTestDataNotSet();
+		wait(_1_SEC);
 
 		modifyPropertiesFile(this.propertiesFile2);
 		wait(_2_SEC);

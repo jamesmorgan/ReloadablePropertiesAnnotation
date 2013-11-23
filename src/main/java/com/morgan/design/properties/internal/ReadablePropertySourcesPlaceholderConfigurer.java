@@ -95,17 +95,33 @@ public class ReadablePropertySourcesPlaceholderConfigurer extends PropertySource
 
 	public Object resolveProperty(final Object property) {
 		Object resolvedPropertyValue = this.properties.get(this.propertyResolver.resolveProperty(property));
-        if (!(resolvedPropertyValue instanceof String))
-            return resolvedPropertyValue;
+		if (notStringpropertyToSubstitute(resolvedPropertyValue)) {
+            return resolvedPropertyValue;        	
+        }
 		while (this.propertyResolver.requiresFurtherResoltuion(resolvedPropertyValue)) {
-            String resolvedValueStr = resolvedPropertyValue.toString();
-            int startingIndex = resolvedValueStr.indexOf("${");
-            int endingIndex = resolvedValueStr.indexOf("}", startingIndex) + 1;
-            String toResolve = resolvedValueStr.substring(startingIndex, endingIndex);
-            String resolved = resolveProperty(toResolve).toString();
-            resolvedPropertyValue = resolvedValueStr.substring(0, startingIndex) + resolved + resolvedValueStr.substring(endingIndex);
-		}
+			resolvedPropertyValue = buildResolvedString(resolvedPropertyValue);
+		}		
 		return resolvedPropertyValue;
+	}
+
+	private Object buildResolvedString(final Object resolvedPropertyValue) {
+		final String resolvedValueStr = resolvedPropertyValue.toString();
+		
+		final int startingIndex = resolvedValueStr.indexOf("${");
+		final int endingIndex = resolvedValueStr.indexOf("}", startingIndex) + 1;
+		
+		final String toResolve = resolvedValueStr.substring(startingIndex, endingIndex);
+		final String resolved = resolveProperty(toResolve).toString();
+		
+		return new StringBuilder()
+						.append(resolvedValueStr.substring(0, startingIndex))
+						.append(resolved)
+						.append(resolvedValueStr.substring(endingIndex))
+						.toString();
+	}
+
+	private boolean notStringpropertyToSubstitute(final Object resolvedPropertyValue) {
+		return !(resolvedPropertyValue instanceof String);
 	}
 
 	private boolean propertyChange(final String oldValue, final String newValue) {

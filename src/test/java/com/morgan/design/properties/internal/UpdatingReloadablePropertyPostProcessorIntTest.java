@@ -75,6 +75,7 @@ public class UpdatingReloadablePropertyPostProcessorIntTest extends AbstractJUni
         assertThat(this.bean.getCompositeStringProperty(), is("Hello, World!"));
 
         this.loadedProperties.setProperty("dynamicProperty.compoiteStringValue", "Goodbye, ${dynamicProperty.baseStringValue}!");
+        assertThat(this.loadedProperties.getProperty("dynamicProperty.compoiteStringValue"), is("Goodbye, ${dynamicProperty.baseStringValue}!"));
 
         final File file = new File(DIR + PROPERTIES);
         final OutputStream newOutputStream = Files.newOutputStream(file.toPath(), new OpenOption[] {});
@@ -82,7 +83,7 @@ public class UpdatingReloadablePropertyPostProcessorIntTest extends AbstractJUni
         newOutputStream.flush();
         newOutputStream.close();
 
-        Thread.sleep(500); // this is a hack -> I need to find an alternative
+        Thread.sleep(1000); // this is a hack -> I need to find an alternative
 
         assertThat(this.bean.getCompositeStringProperty(), is("Goodbye, World!"));
     }
