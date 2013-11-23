@@ -12,3 +12,4 @@
 .springbeans
 .classpath
 target/*
+/target

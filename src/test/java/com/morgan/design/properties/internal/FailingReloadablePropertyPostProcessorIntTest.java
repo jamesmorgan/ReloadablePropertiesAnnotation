@@ -11,7 +11,6 @@ import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-@SuppressWarnings("unused")
 public class FailingReloadablePropertyPostProcessorIntTest {
 
 	@Test

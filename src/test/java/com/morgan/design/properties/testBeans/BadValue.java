@@ -8,7 +8,6 @@ import com.morgan.design.properties.ReloadableProperty;
 @Component
 public class BadValue {
 
-	@SuppressWarnings("unused")
 	@ReloadableProperty("invalid.period")
 	private Period period;
 
