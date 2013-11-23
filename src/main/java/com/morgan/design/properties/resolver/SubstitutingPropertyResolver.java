@@ -51,7 +51,7 @@ public class SubstitutingPropertyResolver implements PropertyResolver {
 	 */
 	private boolean propertyRequiresSubstitution(final String property) {
 		if (null != property) {
-			return property.startsWith("${") && property.endsWith("}");
+			return property.contains("${") && property.contains("}") && property.indexOf("${") < property.indexOf("}");
 		}
 		return false;
 	}

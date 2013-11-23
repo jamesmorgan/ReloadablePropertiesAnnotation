@@ -10,7 +10,14 @@ public class ReloadingAutowiredPropertyBean {
 	@ReloadableProperty("dynamicProperty.stringValue")
 	private String stringProperty;
 
-	public String getStringProperty() {
+    @ReloadableProperty("dynamicProperty.compoiteStringValue")
+    private String compositeStringProperty;
+
+    public String getStringProperty() {
 		return this.stringProperty;
 	}
+
+    public String getCompositeStringProperty() {
+        return this.compositeStringProperty;
+    }
 }

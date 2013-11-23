@@ -35,11 +35,14 @@ public class UpdatingReloadablePropertyPostProcessorIntTest extends AbstractJUni
 	public void setUp() throws IOException {
 		this.loadedProperties = PropertiesLoaderUtils.loadAllProperties(PROPERTIES);
 		assertThat(this.bean.getStringProperty(), is("Injected String Value"));
+        assertThat(this.bean.getCompositeStringProperty(), is("Hello, World!"));
 	}
 
 	@After
 	public void cleanUp() throws Exception {
 		this.loadedProperties.setProperty("dynamicProperty.stringValue", "Injected String Value");
+        this.loadedProperties.setProperty("dynamicProperty.baseStringValue", "World");
+        this.loadedProperties.setProperty("dynamicProperty.compoiteStringValue", "Hello, ${dynamicProperty.baseStringValue}!");
 
 		final OutputStream newOutputStream = Files.newOutputStream(new File(DIR + PROPERTIES).toPath(), new OpenOption[] {});
 		this.loadedProperties.store(newOutputStream, null);
@@ -47,13 +50,14 @@ public class UpdatingReloadablePropertyPostProcessorIntTest extends AbstractJUni
 		Thread.sleep(500); // this is a hack -> I need to find an alternative
 
 		assertThat(this.bean.getStringProperty(), is("Injected String Value"));
+        assertThat(this.bean.getCompositeStringProperty(), is("Hello, World!"));
 	}
 
 	@Test
 	public void shouldReloadAlteredStringProperty() throws Exception {
 		assertThat(this.bean.getStringProperty(), is("Injected String Value"));
 
-		this.loadedProperties.setProperty("dynamicProperty.stringValue", "Altered Injected String Value");
+        this.loadedProperties.setProperty("dynamicProperty.stringValue", "Altered Injected String Value");
 
 		final File file = new File(DIR + PROPERTIES);
 		final OutputStream newOutputStream = Files.newOutputStream(file.toPath(), new OpenOption[] {});
@@ -65,4 +69,21 @@ public class UpdatingReloadablePropertyPostProcessorIntTest extends AbstractJUni
 
 		assertThat(this.bean.getStringProperty(), is("Altered Injected String Value"));
 	}
+
+    @Test
+    public void shouldReloadAlteredCompositeStringProperty() throws Exception {
+        assertThat(this.bean.getCompositeStringProperty(), is("Hello, World!"));
+
+        this.loadedProperties.setProperty("dynamicProperty.compoiteStringValue", "Goodbye, ${dynamicProperty.baseStringValue}!");
+
+        final File file = new File(DIR + PROPERTIES);
+        final OutputStream newOutputStream = Files.newOutputStream(file.toPath(), new OpenOption[] {});
+        this.loadedProperties.store(newOutputStream, null);
+        newOutputStream.flush();
+        newOutputStream.close();
+
+        Thread.sleep(500); // this is a hack -> I need to find an alternative
+
+        assertThat(this.bean.getCompositeStringProperty(), is("Goodbye, World!"));
+    }
 }
