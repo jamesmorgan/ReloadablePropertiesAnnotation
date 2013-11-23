@@ -2,21 +2,23 @@ package com.morgan.design.properties.event;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import com.google.common.eventbus.EventBus;
 import com.morgan.design.properties.bean.PropertyModifiedEvent;
 import com.morgan.design.properties.internal.ReloadablePropertyPostProcessor;
 
-@RunWith(JMock.class)
 @SuppressWarnings("unqualified-field-access")
 public class GuavaPropertyChangedEventNotifierUnitTest {
 
+	@Rule
+	public JUnitRuleMockery ruleMockery = new JUnitRuleMockery();
+	
 	Mockery context = new JUnit4Mockery() {
 		{
 			setImposteriser(ClassImposteriser.INSTANCE);
