@@ -10,12 +10,16 @@ These properties also auto reload if the given properties file changes during ru
 
 	@ReloadableProperty("dynamicProperty.substitutionValue")
 	private String stringProperty;
+	
+	@ReloadableProperty("dynamicProperty.compoiteStringValue")
+	private String compsiteStringProperty;
 </pre>
 
 ### Example Properties File ###
 <pre>
 	dynamicProperty.longValue=12345
 	dynamicProperty.substitutionProperty=${dynamicProperty.substitutionValue}
+	dynamicProperty.compoiteStringValue=Hello, ${dynamicProperty.baseStringValue}!
 </pre>
 
 ### Example Spring XML Configuration ###
@@ -60,6 +64,9 @@ A set of integration and unit tests can be found in _src/test/java_ (tests) & _s
 * Abilty to perform additional re-bind logic when a property is changed, i.e. if a class has an open DB connection whcih needs tobe re-established using newly set properties.
 * Replace callback Properties EventHandler with Guava EventBus
 * Ability to configure usage via spring's @Configuration 
+
+### Contributions ###
+* Thankyou [normanatashbar](https://github.com/normanatashbar) for adding composite string replacement
 
 ### Supported Property Type Conversions Available ###
 * Joda Time Library (2.1) - [link](http://joda-time.sourceforge.net/)
