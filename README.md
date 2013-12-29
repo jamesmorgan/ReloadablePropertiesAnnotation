@@ -103,3 +103,7 @@ A set of integration and unit tests can be found in _src/test/java_ (tests) & _s
 * jmock (2.6.0)
 * hamcrest-all (1.3)
 * spring-test (3.2.5-RELEASE)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/jamesmorgan/reloadablepropertiesannotation/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
