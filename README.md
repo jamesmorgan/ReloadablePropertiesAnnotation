@@ -61,7 +61,7 @@ A set of integration and unit tests can be found in _src/test/java_ (tests) & _s
 * Support for Java 7 Data and Time classes
 * Include the ability to define a database driven properties source not just properties files
 * Implement error recovery inside PropertiesWatcher.class, including better thread recovery
-* Abilty to perform additional re-bind logic when a property is changed, i.e. if a class has an open DB connection whcih needs tobe re-established using newly set properties.
+* Ability to perform additional re-bind logic when a property is changed, i.e. if a class has an open DB connection whcih needs tobe re-established using newly set properties.
 * Replace callback Properties EventHandler with Guava EventBus
 * Ability to configure usage via spring's @Configuration 
 
