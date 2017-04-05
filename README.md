@@ -58,15 +58,15 @@ A set of integration and unit tests can be found in _src/test/java_ (tests) & _s
 
 ### Future Changes ###
 * Ability to use Spring Expression language to map properties files
-* Support for Java 7 Data and Time classes
+* Support for Java 7 Date and Time classes
 * Include the ability to define a database driven properties source not just properties files
 * Implement error recovery inside PropertiesWatcher.class, including better thread recovery
-* Ability to perform additional re-bind logic when a property is changed, i.e. if a class has an open DB connection whcih needs tobe re-established using newly set properties.
+* Ability to perform additional re-bind logic when a property is changed, i.e. if a class has an open DB connection which needs to be re-established using newly set properties.
 * Replace callback Properties EventHandler with Guava EventBus
 * Ability to configure usage via spring's @Configuration 
 
 ### Contributions ###
-* Thankyou [normanatashbar](https://github.com/normanatashbar) for adding composite string replacement
+* Thank you [normanatashbar](https://github.com/normanatashbar) for adding composite string replacement
 
 ### Supported Property Type Conversions Available ###
 * LocalDate.class
