@@ -3,12 +3,17 @@ package com.morgan.design.properties.conversion;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
 import org.springframework.beans.SimpleTypeConverter;
+import org.springframework.beans.TypeConverter;
 import org.springframework.beans.factory.BeanInitializationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Function;
@@ -25,6 +30,9 @@ import com.morgan.design.util.JodaUtils;
 @Component
 public class DefaultPropertyConversionService implements PropertyConversionService {
 
+	@Autowired
+	private ConfigurableBeanFactory configurableBeanFactory;
+	private static TypeConverter DEFAULT;
 	private static Map<Class<? extends Object>, Function<Object, ?>> CONVERTS = Maps.newHashMap();
 	static {
 		CONVERTS.put(Period.class, new PeriodConverter());
@@ -32,9 +40,12 @@ public class DefaultPropertyConversionService implements PropertyConversionServi
 		CONVERTS.put(LocalDate.class, new LocalDateConverter());
 		CONVERTS.put(LocalTime.class, new LocalTimeConverter());
 	}
-
-	private static SimpleTypeConverter DEFAULT = new SimpleTypeConverter();
-
+	
+	@PostConstruct
+	public void init() {
+		DEFAULT = configurableBeanFactory.getTypeConverter();
+	}
+	
 	@Override
 	public Object convertPropertyForField(final Field field, final Object property) {
 		try {
