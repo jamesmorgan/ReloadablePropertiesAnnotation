@@ -7,7 +7,7 @@ These properties also auto reload if the given properties file changes during ru
 <pre>
 	@ReloadableProperty("dynamicProperty.longValue")
 	private long primitiveWithDefaultValue = 55;
-
+	
 	@ReloadableProperty("dynamicProperty.substitutionValue")
 	private String stringProperty;
 	
@@ -69,23 +69,23 @@ A set of integration and unit tests can be found in _src/test/java_ (tests) & _s
 * Thankyou [normanatashbar](https://github.com/normanatashbar) for adding composite string replacement
 
 ### Supported Property Type Conversions Available ###
-* Joda Time Library (2.1) - [link](http://joda-time.sourceforge.net/)
- * LocalDate.class
- * LocalTime.class
- * LocalDateTime.class
- * Period.class
+* LocalDate.class
+* LocalTime.class
+* LocalDateTime.class
+* Period.class
 
 
 * Spring Supported (3.1.2-RELEASE)
- * String.class
- * boolean.class, Boolean.class
- * byte.class, Byte.class
- * char.class, Character.class
- * short.class, Short.class
- * int.class, Integer.class
- * long.class,	Long.class
- * float.class, Float.class
- * double.class, Double.class
+* String.class
+* Date.class
+* boolean.class, Boolean.class
+* byte.class, Byte.class
+* char.class, Character.class
+* short.class, Short.class
+* int.class, Integer.class
+   * long.class,Long.class
+* float.class, Float.class
+* double.class, Double.class
 
 ### Dependencies ###
 
@@ -93,6 +93,7 @@ A set of integration and unit tests can be found in _src/test/java_ (tests) & _s
 * Java 7 SDK
 * Spring (3.2.5-RELEASE)
 * Google Guava  (14.0.1)
+* Joda Time Library (2.1) - [link](http://joda-time.sourceforge.net/)
 
 #### Logging ####
 * logback (1.0.13)
