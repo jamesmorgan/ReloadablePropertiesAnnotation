@@ -67,6 +67,7 @@ A set of integration and unit tests can be found in _src/test/java_ (tests) & _s
 
 ### Contributions ###
 * Thank you [normanatashbar](https://github.com/normanatashbar) for adding composite string replacement
+* Thank you [shiva2991](https://github.com/normanatashbar) for adding java.util.Date type conversion.
 
 ### Supported Property Type Conversions Available ###
 * LocalDate.class
