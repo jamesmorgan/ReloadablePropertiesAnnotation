@@ -5,6 +5,9 @@ import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -98,5 +101,10 @@ public class ReloadablePropertyPostProcessorIntTest extends AbstractJUnit4Spring
 	public void shouldInjectLocalTimeValue() {
 		assertThat(this.bean.getLocalTimeProperty(), is(new LocalTime(12, 22, 45)));
 	}
-
+	
+	@Test
+	public void shouldInjectDateValue() throws ParseException {
+		Date d = new SimpleDateFormat("dd-MM-yyyy").parse("14-4-2017"); // exception is never throw
+		assertThat(this.bean.getDateProperty(), is(d));
+	}
 }

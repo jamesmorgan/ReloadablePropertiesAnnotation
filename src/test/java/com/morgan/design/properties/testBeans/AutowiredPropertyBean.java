@@ -2,6 +2,7 @@ package com.morgan.design.properties.testBeans;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Date;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -71,6 +72,10 @@ public class AutowiredPropertyBean {
 
 	@ReloadableProperty("dynamicProperty.localTimeValue")
 	private LocalTime localTimeProperty;
+	
+	// java date
+	@ReloadableProperty("dynamicProperty.dateValue")
+	private Date dateProperty;
 
 	// recursive substitution
 
@@ -151,4 +156,7 @@ public class AutowiredPropertyBean {
 		return this.substitutedProperty;
 	}
 
+	public Date getDateProperty() {
+		return this.dateProperty;
+	}
 }
