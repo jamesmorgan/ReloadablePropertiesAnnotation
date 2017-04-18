@@ -3,21 +3,24 @@ package com.morgan.design.properties.conversion;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
-import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
-public class DefaultPropertyConversionServiceUnitTest {
+@ContextConfiguration(locations = {"classpath:/spring/spring-reloadablePropertyPostProcessorIntTest.xml"})
+public class DefaultPropertyConversionServiceUnitTest extends AbstractJUnit4SpringContextTests {
 
+	@Autowired
 	private PropertyConversionService conversionService;
-
-	@Before
-	public void setUp() throws Exception {
-		this.conversionService = new DefaultPropertyConversionService();
-	}
 
 	@Test
 	public void shouldConvertPeriodForPropertyForField() throws NoSuchFieldException, SecurityException {
@@ -52,11 +55,18 @@ public class DefaultPropertyConversionServiceUnitTest {
 		assertThat((Boolean) convertPropertyForField("booleanValue", "true"), is(true));
 	}
 
+	@Test
+	public void shouldConvertDateValue() throws NoSuchFieldException, SecurityException, ParseException {
+		Date expected = new SimpleDateFormat("dd-MM-yyyy").parse("9-4-2017");
+		assertThat((Date) convertPropertyForField("dateValue", "9-4-2017"), is(expected));
+	}
+	
 	static class TestObject {
 		Period period = new Period();
 		LocalTime localTime = new LocalTime();
 		LocalDate localDate = new LocalDate();
 		LocalDateTime localDateTime = new LocalDateTime();
+		Date dateValue = new Date();
 		boolean booleanValue;
 	}
 
