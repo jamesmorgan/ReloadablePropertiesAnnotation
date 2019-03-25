@@ -8,7 +8,7 @@ These properties also auto reload if the given properties file changes during ru
 	@ReloadableProperty("dynamicProperty.longValue")
 	private long primitiveWithDefaultValue = 55;
 	
-	@ReloadableProperty("dynamicProperty.substitutionValue")
+	@ReloadableProperty("dynamicProperty.substitutionProperty")
 	private String stringProperty;
 	
 	@ReloadableProperty("dynamicProperty.compoiteStringValue")
